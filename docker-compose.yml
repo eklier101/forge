@@ -1,0 +1,106 @@
+# =============================================================================
+# Forge — public / generic Docker Compose
+# =============================================================================
+#
+# PURPOSE
+#   Run Forge without house-specific IPs, hostnames, or tokens baked in.
+#   Default path: pull prebuilt GHCR images (no compile).
+#
+# QUICK START (pull images — recommended)
+#   cp .env.example .env
+#   # edit JWT_SECRET and POSTGRES_PASSWORD (required)
+#   docker compose up -d
+#
+# Optional Garmin / Renpho worker (Go, lightweight):
+#   docker compose --profile sync up -d
+#
+# Optional Cloudflare Tunnel:
+#   docker compose --profile tunnel up -d
+#
+# Contributors who want to build from source locally can uncomment the
+# `build:` blocks under api / sync-worker and drop the `image:` lines.
+#
+# HOW CLIENTS REACH THE API
+#   Option A — LAN / IP: map FORGE_HTTP_PORT (default 3030) → Server URL http://YOUR_LAN_IP:3030
+#   Option B — Tunnel profile: set TUNNEL_TOKEN, use your public hostname
+#
+# =============================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-forge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-forge}
+    volumes:
+      - forge_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-forge} -d ${POSTGRES_DB:-forge}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    image: ghcr.io/eklier101/forge-api:latest
+    # build:
+    #   context: ./services/api
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-forge}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-forge}
+      PORT: 3000
+      HOST: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      AI_ENABLED: ${AI_ENABLED:-false}
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      HA_ENABLED: ${HA_ENABLED:-false}
+      FORGE_VERSION: ${FORGE_VERSION:-0.0.0}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+    ports:
+      - "${FORGE_HTTP_PORT:-3030}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  # Go sync-worker — optional Garmin / Renpho polling (no Python).
+  sync-worker:
+    image: ghcr.io/eklier101/forge-sync-worker:latest
+    # build:
+    #   context: ./services/sync-worker
+    profiles: ["sync"]
+    env_file:
+      - .env
+    environment:
+      FORGE_API_URL: http://api:3000
+      JWT_SECRET: ${JWT_SECRET}
+      FORGE_INTEGRATION_TOKEN: ${INTEGRATION_TOKEN:-}
+      SYNC_INTERVAL_SECONDS: ${SYNC_INTERVAL_SECONDS:-1800}
+      SYNC_POLL_SECONDS: ${SYNC_POLL_SECONDS:-20}
+      FORGE_TZ: ${FORGE_TZ:-UTC}
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["tunnel"]
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  forge_pg:

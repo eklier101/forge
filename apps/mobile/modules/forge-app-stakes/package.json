@@ -1,0 +1,12 @@
+{
+  "name": "forge-app-stakes",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {},
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  }
+}

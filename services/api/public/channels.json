@@ -1,0 +1,30 @@
+{
+    "channels":  {
+                     "developer":  {
+                                       "minInstallCode":  1,
+                                       "version":  "0.3.3",
+                                       "apkFile":  "forge-dev.apk",
+                                       "debug":  true,
+                                       "versionCode":  87,
+                                       "label":  "Developer",
+                                       "bridge":  null
+                                   },
+                     "early":  {
+                                   "version":  "0.3.3",
+                                   "label":  "Early access",
+                                   "minInstallCode":  1,
+                                   "versionCode":  87,
+                                   "bridge":  null,
+                                   "apkFile":  "forge-early.apk"
+                               },
+                     "stable":  {
+                                    "version":  "0.3.3",
+                                    "label":  "Stable",
+                                    "minInstallCode":  1,
+                                    "versionCode":  87,
+                                    "bridge":  null,
+                                    "apkFile":  "forge.apk"
+                                }
+                 },
+    "defaultChannel":  "stable"
+}

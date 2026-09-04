@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "gitea"]
+	url = http://10.100.30.205:3000/eklier/forge.git
+	fetch = +refs/heads/*:refs/remotes/gitea/*
+[branch "main"]
+	remote = gitea
+	merge = refs/heads/main

@@ -1,0 +1,150 @@
+[
+  {
+    "version": "0.2.71",
+    "date": "2026-08-08",
+    "summary": "Features stay hidden when you turn them off, and improvement notes are easier to read.",
+    "notes": [
+      {
+        "title": "Progress photos disappear from Home when you turn them off",
+        "body": "When you switch off Progress photos under Account → Features, the Progress photos card on the Home screen goes away completely. It should no longer stick around after a refresh or a sync."
+      },
+      {
+        "title": "Home Assistant vanishes from Admin when you turn it off",
+        "body": "Turning off Home Assistant in Features removes the whole Home Assistant section from Admin — not a leftover tip telling you to turn it back on. Setup and publish controls only show when the feature is on."
+      },
+      {
+        "title": "Tap any improvement note to read it in plain English",
+        "body": "What's New and You → Improvement notes now let you tap a note. You get a short title in the list, then a full, easy-to-read explanation when you open it — less jargon, more “what this means for you.”"
+      }
+    ]
+  },
+  {
+    "version": "0.2.70",
+    "date": "2026-08-08",
+    "summary": "Snappier Features switches, cleaner pull-to-refresh, and tighter control over photos and Home Assistant.",
+    "notes": [
+      {
+        "title": "Pull-to-refresh looks right on a dark screen",
+        "body": "When you pull down to refresh on Home, Fuel, or Plan, the spinner sits in a sensible place and matches the dark theme — no huge empty gap under the status bar."
+      },
+      {
+        "title": "Feature switches respond right away",
+        "body": "In Account → Features, each switch flips immediately when you tap it. You don’t wait on a slow button before the toggle moves."
+      },
+      {
+        "title": "Progress photos can be fully turned off",
+        "body": "Switching Progress photos off hides the vault, post-workout prompts, weekday reminders, and related Account options so that whole flow stays out of your way."
+      },
+      {
+        "title": "Home Assistant is a Feature you can turn off",
+        "body": "Home Assistant now lives under Features. When it’s off, Admin HA setup is hidden and Forge stops publishing events to Home Assistant."
+      },
+      {
+        "title": "Account switching stays with the owner admin",
+        "body": "Only the owner admin can use the account switcher. Regular and test accounts can’t open Admin screens they shouldn’t see."
+      }
+    ]
+  },
+  {
+    "version": "0.2.69",
+    "date": "2026-08-08",
+    "summary": "Catch up on every missed update, and choose how early you get new builds.",
+    "notes": [
+      {
+        "title": "What's New shows every version you skipped",
+        "body": "After an update, the What's New popup lists notes from every version you missed — not just the latest one — so you can catch up without hunting."
+      },
+      {
+        "title": "Browse past improvement notes anytime",
+        "body": "Open You → Improvement notes to read the full history of published updates whenever you want."
+      },
+      {
+        "title": "Pick Stable, Early access, or Developer updates",
+        "body": "Under Account you can choose your update channel: Stable for the calmest builds, Early access for newer ones, or Developer for the newest experiments (with an optional bridge download when needed)."
+      },
+      {
+        "title": "Optional developer debug mode",
+        "body": "Developer channel users can turn on a debug mode from Account when you need extra diagnostics."
+      }
+    ]
+  },
+  {
+    "version": "0.2.68",
+    "date": "2026-08-08",
+    "summary": "Fuel meals are clearer by time of day, and you can fix yesterday’s food log.",
+    "notes": [
+      {
+        "title": "Log breakfast, lunch, dinner, or a snack",
+        "body": "When you add food in Fuel, you pick a meal slot — Breakfast, Lunch, Dinner, or Snack — so the day reads the way you actually eat."
+      },
+      {
+        "title": "Browse and edit previous days in Fuel",
+        "body": "Use the day arrows in Fuel to look at earlier dates, fix meals, and keep totals accurate without starting over."
+      },
+      {
+        "title": "Admin roadmap notes for motivation and on-device ML",
+        "body": "Admin → For later now tracks longer-term ideas like motivation features and an Immich-style on-device ML path under the Toward version headers."
+      }
+    ]
+  },
+  {
+    "version": "0.2.67",
+    "date": "2026-08-07",
+    "summary": "Admin backlog is grouped by the version we’re aiming for.",
+    "notes": [
+      {
+        "title": "Toward version headers in Admin → For later",
+        "body": "For later is organized under Toward v0.2 → v1.0 headers so upcoming work sits under the release it belongs to."
+      },
+      {
+        "title": "Agents keep the backlog and checklist current",
+        "body": "A standing session checklist reminds builders to update notes, check UX, and smoke-test with the test user after meaningful changes."
+      }
+    ]
+  },
+  {
+    "version": "0.2.66",
+    "date": "2026-08-07",
+    "summary": "Features popup, test accounts, and a few quality-of-life polish passes.",
+    "notes": [
+      {
+        "title": "Turn modules on or off from Features",
+        "body": "Account → Features lets you hide modules you don’t use. Admins can also jump between linked accounts (for example forge_test) when the switcher is available."
+      },
+      {
+        "title": "Darker pull-to-refresh and fasting sort options",
+        "body": "Pull-to-refresh fits the dark UI better, and fasting history can sort by most recent or longest."
+      },
+      {
+        "title": "Built-in test accounts for safe checks",
+        "body": "forge_test and forge_agent accounts are ready so changes can be tried without using your main admin login."
+      }
+    ]
+  },
+  {
+    "version": "0.2.62",
+    "date": "2026-08-07",
+    "summary": "App updates download more reliably on Android.",
+    "notes": [
+      {
+        "title": "APK updates no longer die at 30 seconds",
+        "body": "Downloading a Forge update on Android can take longer than half a minute. Downloads now keep going, can resume if interrupted, and can fall back to your local network when that helps."
+      }
+    ]
+  },
+  {
+    "version": "0.2.61",
+    "date": "2026-08-07",
+    "summary": "AI stays on your home server; Garmin days line up with Eastern time.",
+    "notes": [
+      {
+        "title": "AI still runs on TrueNAS Ollama",
+        "body": "Smart plan and food estimate AI stay on your TrueNAS Ollama setup — you don’t need to move Forge for that."
+      },
+      {
+        "title": "Garmin days and rate limits behave better",
+        "body": "Garmin activity days follow Eastern time more reliably, and Forge backs off politely when Garmin rate-limits requests. Sign-in tokens were also rotated for security."
+      }
+    ]
+  }
+]

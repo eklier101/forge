@@ -1,0 +1,82 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-forge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-forge_change_me}
+      POSTGRES_DB: ${POSTGRES_DB:-forge}
+    volumes:
+      - forge_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-forge} -d ${POSTGRES_DB:-forge}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./services/api
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-forge}:${POSTGRES_PASSWORD:-forge_change_me}@postgres:5432/${POSTGRES_DB:-forge}
+      PORT: 3000
+      HOST: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET:-dev-only-change-me}
+      INVITE_CODES: ${INVITE_CODES:-}
+      AI_ENABLED: ${AI_ENABLED:-false}
+      OLLAMA_URL: ${OLLAMA_URL:-http://10.100.1.70:11434}
+      HA_ENABLED: ${HA_ENABLED:-false}
+      HA_MQTT_URL: ${HA_MQTT_URL:-}
+      HA_MQTT_USERNAME: ${HA_MQTT_USERNAME:-}
+      HA_MQTT_PASSWORD: ${HA_MQTT_PASSWORD:-}
+      HA_REST_URL: ${HA_REST_URL:-}
+      HA_REST_TOKEN: ${HA_REST_TOKEN:-}
+      FORGE_VERSION: ${FORGE_VERSION:-0.2.3}
+    ports:
+      # TrueNAS host port (3000 taken by Nodecast). Public CF origin should be http://10.100.1.70:3030
+      - "3030:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  sync-worker:
+    build:
+      context: ./services/sync-worker
+    env_file:
+      - .env
+    environment:
+      FORGE_API_URL: http://api:3000
+      JWT_SECRET: ${JWT_SECRET:-dev-only-change-me}
+      FORGE_INTEGRATION_TOKEN: ${INTEGRATION_TOKEN:-}
+      # 30 min default — Garmin rate-limits (429) if we hammer logins.
+      SYNC_INTERVAL_SECONDS: ${SYNC_INTERVAL_SECONDS:-1800}
+      SYNC_POLL_SECONDS: ${SYNC_POLL_SECONDS:-20}
+      FORGE_TZ: ${FORGE_TZ:-America/New_York}
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles: ["sync"]
+
+  # Optional: attach an existing Cloudflare tunnel token to this stack.
+  # Point forge.enckliers.com at http://10.100.1.70:3030 in Zero Trust (TrueNAS).
+  # Tunnel connector historically on 10.100.30.80 (_k3s-1).
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["tunnel"]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    depends_on:
+      - api
+
+volumes:
+  forge_pg:

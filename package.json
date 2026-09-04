@@ -1,0 +1,19 @@
+{
+  "name": "forge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Forge — offline-first gym + home workout tracker",
+  "workspaces": [
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "mobile": "npm run start --workspace=apps/mobile",
+    "mobile:android": "npm run android --workspace=apps/mobile",
+    "mobile:web": "npm run web --workspace=apps/mobile",
+    "api": "npm run dev --workspace=services/api",
+    "api:build": "npm run build --workspace=services/api",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down"
+  }
+}

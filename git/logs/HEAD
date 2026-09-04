@@ -1,0 +1,14 @@
+0000000000000000000000000000000000000000 2a059d7bb240964dc48ee381e9cf10cee1e1f899 Ethan Klier <eklier101@gmail.com> 1788313314 -0400	commit (initial): Recover Forge workspace after accidental deletion incident.
+2a059d7bb240964dc48ee381e9cf10cee1e1f899 88bcb89fc4a5ffa09bd4028e169ae80d0d2a01a9 Ethan Klier <eklier101@gmail.com> 1788313479 -0400	commit: Add recovery status, safety rule, and recovery tooling.
+88bcb89fc4a5ffa09bd4028e169ae80d0d2a01a9 b4af99748ad7c1994014f41d090005b4f0de75ac Forge Agent <forge-agent@local> 1788379998 -0400	commit: Post-incident rebuild: dual-repo pipeline, de-personalize public export, fix corruption.
+b4af99748ad7c1994014f41d090005b4f0de75ac 6db29b7700a20f32ba46ce9b781be0f185b01dd1 Forge Agent <forge-agent@local> 1788380179 -0400	commit: Polish public export: ignore tmp/recovery junk; fix export git identity.
+6db29b7700a20f32ba46ce9b781be0f185b01dd1 0da8668df6a0d1b79054bd57d4dd0ea27e6175a4 Forge Agent <forge-agent@local> 1788488080 -0400	commit: Move local workspace paths to C:\Apps\Forge.
+0da8668df6a0d1b79054bd57d4dd0ea27e6175a4 24770acb3976abd91ff705425c6f978ea7f2bd34 Forge Agent <forge-agent@local> 1788488495 -0400	commit: Replace Python sync-worker with Go; ship pull-first public Docker images.
+24770acb3976abd91ff705425c6f978ea7f2bd34 a2a0652608f013f9c25711fc5ec3d9b8a4ebbe07 Forge Agent <forge-agent@local> 1788488624 -0400	commit: Fix push-public-github.ps1 brace so public Gitea/GitHub export runs.
+a2a0652608f013f9c25711fc5ec3d9b8a4ebbe07 c8164be8e4da74028fc719c3a424dfbacc08bf51 Forge Agent <forge-agent@local> 1788488663 -0400	commit: Rewrite push-public-github.ps1 with ASCII-safe PowerShell.
+c8164be8e4da74028fc719c3a424dfbacc08bf51 544e4c1209584bc0b68f59a702df187d918c3a95 Forge Agent <forge-agent@local> 1788488709 -0400	commit: Tolerate git stderr warnings in push-public-github.ps1
+544e4c1209584bc0b68f59a702df187d918c3a95 300a72cfe521e18065790a8d608aaab3d4a01ff9 Forge Agent <forge-agent@local> 1788488886 -0400	commit: Point public images and issue links at GitHub user eklier101.
+300a72cfe521e18065790a8d608aaab3d4a01ff9 dc3be3785f18f978608a6f15fa7f44c5c4220031 Forge Agent <forge-agent@local> 1788489205 -0400	commit: Fix Go sync-worker Garmin mobile SSO and Renpho user IDs.
+dc3be3785f18f978608a6f15fa7f44c5c4220031 d94d10685dbf9df05f08f79032fc15b6183c4db3 Forge Agent <forge-agent@local> 1788489337 -0400	commit: Harden Go Garmin profile path and Renpho measurement discovery.
+d94d10685dbf9df05f08f79032fc15b6183c4db3 0fb3dd8982e188791bff73c21f395529d27dd8e8 Forge Agent <forge-agent@local> 1788489394 -0400	commit: Fix Garmin sync log formatting for optional metrics.
+0fb3dd8982e188791bff73c21f395529d27dd8e8 93d20e1dd7b0a25ccb0892225281a17145c88723 Forge Agent <forge-agent@local> 1788489502 -0400	commit: Exclude private export/push helpers from public tree.
